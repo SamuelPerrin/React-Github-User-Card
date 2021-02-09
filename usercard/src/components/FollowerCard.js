@@ -11,12 +11,14 @@ const StyledCard = styled.div`
   }
   
   background-color: #AAAAAA;
-  border:1px solid black;
+  border:2px solid black;
   color:black;
   width:15%;
   align-content: center;
   text-align: center;
   margin: 1%;
+  cursor: pointer;
+
 `
 
 class FollowerCard extends React.Component {
@@ -25,12 +27,18 @@ class FollowerCard extends React.Component {
     this.state = {
       name: props.details.login,
       avatar: props.details.avatar_url,
+      newUser: props.newUser
     }
+  }
+
+  handleClick = (evt) => {
+    evt.preventDefault();
+    this.state.newUser(this.state.name);
   }
 
   render() {
     return(
-      <StyledCard>
+      <StyledCard onClick={this.handleClick}>
         {this.state.name ? <h4>{this.state.name}</h4> : null}
         {this.state.avatar ? <img src={this.state.avatar} alt={this.state.name} /> : null}
       </StyledCard>

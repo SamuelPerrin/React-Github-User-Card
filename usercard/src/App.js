@@ -23,22 +23,33 @@ class App extends React.Component {
     evt.preventDefault();
     axios.get(`https://api.github.com/users/${this.state.query}`)
       .then(res => {
-        console.log("received data in handleSearch", res.data);
+        // console.log("received data in handleSearch", res.data);
         this.setState({userData: res.data})
       })
       .catch(err => console.log(err));
     }
     
   componentDidUpdate(prevProps, prevState){
-    if (prevState.userData !== this.state.userData) {
+    if ((this.state.query) && (prevState.userData !== this.state.userData)) {
       axios.get(`https://api.github.com/users/${this.state.query}/followers`)
       .then(res => {
-        console.log("received data in cDU", res.data);
-        this.setState({followersData: res.data})
-        this.setState({query: ''});
+        // console.log("received data in cDU", res.data);
+        this.setState({followersData: res.data, query: ''});
       })
       .catch(err => console.log(err))
     }
+  }
+
+  newUser = (username) => {
+    axios.get(`https://api.github.com/users/${username}`)
+      .then(res => this.setState({userData: res.data}))
+      .catch(err => console.log(err));
+    axios.get(`https://api.github.com/users/${username}/followers`)
+      .then(res => {
+        // console.log("received data in newUser", res.data);
+        this.setState({followersData: res.data})
+      })
+      .catch(err => console.log(err))
   }
 
   render() {
@@ -49,14 +60,14 @@ class App extends React.Component {
           <form onSubmit={this.handleSearch} style={{marginBottom: "1%"}}>
             <input 
               value={this.state.query}
-              placeholder="Search for user..."
+              placeholder="Search by username..."
               onChange={this.handleQuery}
             />
           </form>
         </header>
         <UserCard userData={this.state.userData} className="App"/>
         {this.state.userData.name ? <h3>{this.state.userData.name}'s Followers</h3> : null}
-        <Followers followersData={this.state.followersData} />
+        <Followers followersData={this.state.followersData} newUser={this.newUser} />
       </div>
     );
   }

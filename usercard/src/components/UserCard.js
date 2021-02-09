@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 class UserCard extends React.Component {
   constructor(props) {
-    console.log("Props in UserCard:", props)
     super(props);
     this.state = {
       name: props.userData.name,
@@ -13,7 +12,7 @@ class UserCard extends React.Component {
       location: props.userData.location,
       bio: props.userData.bio,
       url: props.userData.html_url,
-      avatar: props.userData.avatar_url
+      avatar: props.userData.avatar_url,
     }
   }
 
@@ -34,7 +33,7 @@ class UserCard extends React.Component {
   render() {
     return(
       <StyledCard>
-        {this.state.name ? <h2>Name: {this.state.name}</h2> : null}
+        {this.state.name ? <h2>{this.state.name}</h2> : null}
         {this.state.avatar ? <img src={this.state.avatar} alt={this.state.name} /> : null}
         <div>
           {this.state.username ? <p><span>Username: </span>{this.state.username}</p> : null}
@@ -58,6 +57,7 @@ const StyledCard = styled.div`
   align-items: center;
   margin-bottom: 3%;
   margin-left: 25%;
+  border: 4px solid black;
 
   img {
     border-radius: 50%;

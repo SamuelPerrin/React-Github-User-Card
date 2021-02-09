@@ -14,6 +14,7 @@ class Followers extends React.Component {
     super(props);
     this.state = {
       followersData: props.followersData,
+      newUser: props.newUser,
     }
   }
 
@@ -26,7 +27,7 @@ class Followers extends React.Component {
   render() {
     return(
       <StyledFollowers>
-        {this.state.followersData.map(follower => <FollowerCard details={follower} />)}
+        {this.state.followersData.map(follower => <FollowerCard key={follower.id} details={follower} newUser={this.state.newUser} />)}
       </StyledFollowers>
     )
   }
